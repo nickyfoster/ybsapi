@@ -55,7 +55,7 @@ def get_friends(id):
     data = request.get_json()
     result = parse_friends(data)
     print("Returning: ", result)
-    return jsonify({'Data': result})
+    return jsonify({'data': result})
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
