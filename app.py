@@ -23,9 +23,7 @@ db = SQLAlchemy(app)
 from models import User
 
 
-@app.route('/')
-def hello():
-    return jsonify({'hello': True})
+
 
 def parse_friends(json_data):
     tmp_friends = []
@@ -50,10 +48,34 @@ def parse_friends(json_data):
 
     return friends_in_app
 
+@app.route('/')
+def hello():
+    return jsonify({'Yasos Biba Studios': True})
+
+@app.route('/user/communities/<id>', methods=['GET', 'POST'])
+@cross_origin()
+def get_communities():
+    referrer = request.headers.get("Referer")
+    if referrer:
+        if is_vk_user(referrer):
+            print("User authorized")
+        else:
+            print("not authorized")
+
+    data = request.get_json()
+    print("Data: ", data)
+    return jsonify({'data': 'Received'})
+
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
 @cross_origin()
 def get_friends(id):
+    referrer = request.headers.get("Referer")
+    if referrer:
+        if is_vk_user(referrer):
+            print("User authorized")
+        else:
+            print("not authorized")
     data = request.get_json()
     result = parse_friends(data)
     print("Returning: ", result)
