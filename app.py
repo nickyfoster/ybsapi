@@ -27,10 +27,14 @@ from models import User
 def hello():
     return jsonify({'hello': True})
 
-@app.route('/user/friends/<id>', methods=['GET'])
+@app.route('/user/friends/<id>', methods=['GET', 'POST'])
 @cross_origin()
-def get_friends():
-    pass
+def get_friends(id):
+    data = request.get_json()
+    print("Data:", data)
+
+    result = { "data": {"status": "OK"}}
+    return "Reseived"
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
