@@ -27,6 +27,8 @@ from models import User
 def hello():
     return jsonify({'hello': True})
 
+#TODO - method for searching authorized users from main user
+
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
 @cross_origin()
 def get_friends(id):
@@ -67,7 +69,7 @@ def task_info(id):
 
 def is_vk_user(url) -> bool:
     """Check VK Apps signature"""
-    query_params = dict(parse_qsl(urlparse(referrer).query, keep_blank_values=True))
+    query_params = dict(parse_qsl(urlparse(url).query, keep_blank_values=True))
     vk_subset = OrderedDict(sorted(x for x in query.items() if x[0][:3] == "vk_"))
     hash_code = b64encode(HMAC(client_secret.encode(), urlencode(vk_subset, doseq=True).encode(), sha256).digest())
     decoded_hash_code = hash_code.decode('utf-8')[:-1].replace('+', '-').replace('/', '_')
