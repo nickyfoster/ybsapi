@@ -41,7 +41,10 @@ def parse_friends(json_data):
         tmp_friends.append(person)
 
     for friend in tmp_friends:
-        if User.query.filter_by(user_vk_id=int(friend['id'])).first():
+        friend_id = str(friend['id'])
+        print(friend_id)
+        user = User.query.filter_by(user_vk_id=friend_id).first()
+        if user:
             friends_in_app.append(friend)
 
     return friends_in_app
@@ -52,14 +55,12 @@ def parse_friends(json_data):
 def get_friends(id):
     data = request.get_json()
     result = parse_friends(data)
-    print(result)
-    return result
+    return jsonify(result)
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
 @cross_origin()
 def task_info(id):
-    #Debug getting query O(1) difficulty
     users = User.query.filter_by(user_vk_id=id).first()
     print("users:", users)
     referrer = request.headers.get("Referer")
