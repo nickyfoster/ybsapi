@@ -42,7 +42,6 @@ def parse_friends(json_data):
 
     for friend in tmp_friends:
         friend_id = str(friend['id'])
-        print(friend_id)
         user = User.query.filter_by(user_vk_id=friend_id).first()
         if user:
             friends_in_app.append(friend)
@@ -55,7 +54,7 @@ def parse_friends(json_data):
 def get_friends(id):
     data = request.get_json()
     result = parse_friends(data)
-    return jsonify(result)
+    return jsonify({'Data':result})
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
