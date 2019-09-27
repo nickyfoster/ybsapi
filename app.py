@@ -41,7 +41,6 @@ def parse_friends(friends):
                 person[key] = value
 
         return_friends.append(person)
-        print(return_friends)
     return return_friends
 
 
