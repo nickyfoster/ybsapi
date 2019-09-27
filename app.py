@@ -54,7 +54,7 @@ def hello():
 
 @app.route('/user/communities/<id>', methods=['GET', 'POST'])
 @cross_origin()
-def get_communities():
+def get_communities(id):
     referrer = request.headers.get("Referer")
     if referrer:
         if is_vk_user(referrer):
