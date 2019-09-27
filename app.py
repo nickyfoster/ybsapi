@@ -36,7 +36,7 @@ def get_friends(id):
     print("Data:", data)
 
     result = { "data": {"status": "OK"}}
-    return "Reseived"
+    return result
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
