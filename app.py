@@ -40,7 +40,7 @@ def parse_friends(friends):
             if key == 'first_name':
                 person[key] = value
 
-        return_friends.append(person)
+            return_friends.append(person)
     return return_friends
 
 
@@ -49,7 +49,8 @@ def parse_friends(friends):
 def get_friends(id):
     data = request.get_json()
     result = parse_friends(data)
-    return jsonify(result)
+    print(result)
+    return result
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
