@@ -41,6 +41,7 @@ def parse_friends(friends):
                 person[key] = value
 
         return_friends.append(person)
+    return return_friends
 
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
