@@ -41,6 +41,7 @@ def parse_friends(friends):
                 person[key] = value
 
         return_friends.append(person)
+        print(return_friends)
     return return_friends
 
 
@@ -48,9 +49,8 @@ def parse_friends(friends):
 @cross_origin()
 def get_friends(id):
     data = request.get_json()
-
     result = parse_friends(data)
-    return result
+    return jsonify(result)
 
 
 @app.route('/user/authorize/<id>', methods=['GET'])
