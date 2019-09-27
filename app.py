@@ -27,7 +27,7 @@ from models import User
 def hello():
     return jsonify({'hello': True})
 
-@app.route('/users/<id>', methods=['GET'])
+@app.route('/users/authorize/<id>', methods=['GET'])
 @cross_origin()
 def task_info(id):
     #Debug getting query O(1) difficulty
