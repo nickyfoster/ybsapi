@@ -27,21 +27,25 @@ from models import User
 def hello():
     return jsonify({'hello': True})
 
-def parse_friends(friends):
-    return_friends = []
-    for friend in friends:
+def parse_friends(json_data):
+    tmp_friends = []
+    friends_in_app = []
+
+    for friend in json_data:
         person = {}
         for key, value in friend.items():
             if key == 'id':
-                if User.query.filter_by(user_vk_id=key).first():
-                    person[key] = value
-                else:
-                    continue
+                person[key] = value
             if key == 'first_name':
                 person[key] = value
+        tmp_friends.append(person)
 
-            return_friends.append(person)
-    return return_friends
+    for friend in tmp_friends:
+        if friend['id'] in db:
+            print("YOS")
+            friends_in_app.append(friend)
+
+    return friends_in_app
 
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
