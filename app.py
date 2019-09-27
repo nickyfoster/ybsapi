@@ -54,7 +54,7 @@ def parse_friends(json_data):
 def get_friends(id):
     data = request.get_json()
     result = parse_friends(data)
-    print("Returning: " result)
+    print("Returning: ", result)
     return jsonify({'Data': result})
 
 
