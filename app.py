@@ -27,7 +27,13 @@ from models import User
 def hello():
     return jsonify({'hello': True})
 
-@app.route('/users/authorize/<id>', methods=['GET'])
+@app.route('/user/friends/<id>', methods=['GET'])
+@cross_origin()
+def get_friends():
+    pass
+
+
+@app.route('/user/authorize/<id>', methods=['GET'])
 @cross_origin()
 def task_info(id):
     #Debug getting query O(1) difficulty
@@ -36,9 +42,10 @@ def task_info(id):
     referrer = request.headers.get("Referer")
     print("Referrer: ", referrer)
     if referrer:
-        query_params = dict(parse_qsl(urlparse(referrer).query, keep_blank_values=True))
-        status = is_valid(query=query_params, secret=client_secret)
-        print("ok" if status else "fail")
+        if is_vk_user(referrer):
+            print("User authorized")
+        else:
+            print("not authorized")
     if users:
         print("User exists")
         result = { "data": {"vk_user_id": id, "status": "old"}}
@@ -54,13 +61,14 @@ def task_info(id):
         except Exception as e:
             return(str(e))
 
-
-def is_valid(*, query: dict, secret: str) -> bool:
+def is_vk_user(url) -> bool:
     """Check VK Apps signature"""
+    query_params = dict(parse_qsl(urlparse(referrer).query, keep_blank_values=True))
     vk_subset = OrderedDict(sorted(x for x in query.items() if x[0][:3] == "vk_"))
-    hash_code = b64encode(HMAC(secret.encode(), urlencode(vk_subset, doseq=True).encode(), sha256).digest())
+    hash_code = b64encode(HMAC(client_secret.encode(), urlencode(vk_subset, doseq=True).encode(), sha256).digest())
     decoded_hash_code = hash_code.decode('utf-8')[:-1].replace('+', '-').replace('/', '_')
     return query["sign"] == decoded_hash_code
+
 
 if __name__ == '__main__':
     app.run()
