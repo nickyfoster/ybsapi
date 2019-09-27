@@ -11,7 +11,7 @@ from urllib.parse import urlparse, parse_qsl, urlencode
 #TODO: access database parameters
 #TODO: make decorator for vk id validation or just check in each function
 
-client_secret = "fDHsb7dWwsFGqQv9z9Vb"
+client_secret = "krPB9BSIrxRa3qJQwbIQ"
 
 app = Flask(__name__)
 cors = CORS(app)
