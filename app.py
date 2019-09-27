@@ -41,7 +41,7 @@ def parse_friends(json_data):
         tmp_friends.append(person)
 
     for friend in tmp_friends:
-        if User.query.filter_by(user_vk_id=friend['id']).first():
+        if User.query.filter_by(user_vk_id=int(friend['id'])).first():
             friends_in_app.append(friend)
 
     return friends_in_app
