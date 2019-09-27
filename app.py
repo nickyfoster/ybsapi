@@ -38,6 +38,8 @@ def parse_friends(json_data):
                 person[key] = value
             if key == 'first_name':
                 person[key] = value
+            if key == 'photo_200':
+                person[key] = value
         tmp_friends.append(person)
 
     for friend in tmp_friends:

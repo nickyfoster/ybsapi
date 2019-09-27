@@ -18,3 +18,4 @@ class User(db.Model):
             'id': self.id,
             'user_vk_id': self.user_vk_id
         }
+
