@@ -34,6 +34,8 @@ def hello():
 def get_friends(id):
     data = request.get_json()
     #print("Data:", data)
+    if id == 9336093:
+        pass
 
     result = { "data": {"status": "OK"}}
     return result
