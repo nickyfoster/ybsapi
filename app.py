@@ -27,17 +27,28 @@ from models import User
 def hello():
     return jsonify({'hello': True})
 
-#TODO - method for searching authorized users from main user
+def parse_friends(friends):
+    return_friends = []
+    for friend in friends:
+        person = {}
+        for key, value in friend.items():
+            if key == 'id':
+                if User.query.filter_by(user_vk_id=key).first():
+                    person[key] = value
+                else:
+                    continue
+            if key == 'first_name':
+                person[key] = value
+
+        return_friends.append(person)
+
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
 @cross_origin()
 def get_friends(id):
     data = request.get_json()
-    #print("Data:", data)
-    if id == 9336093:
-        pass
 
-    result = { "data": {"status": "OK"}}
+    result = parse_friends(data)
     return result
 
 
