@@ -1,5 +1,4 @@
 import rutermextract
-
 import keywords
 
 
@@ -7,7 +6,6 @@ class PyMorpho:
     def __init__(self):
         self.termex = rutermextract.TermExtractor()
         self.true_keywords = keywords.final
-        #self.true_keywords = keywords.keywords_list
 
     def generate_keywords_list(self, raw_text_data, limit, frequency):
         """ Generate keywords list from string
@@ -27,8 +25,7 @@ class PyMorpho:
         return keywords
 
     def format_user_keywords(self, user_keywords):
-        result_kw_list = set(user_keywords) & set(self.true_keywords)
-        return result_kw_list
+        return set(user_keywords) & set(self.true_keywords)
 
     def get_keywords_from_groups(self, groups, limit=40, frequency=2):
         """ Generate keywords list according to user groups """
