@@ -51,8 +51,7 @@ class PyMapsAPI:
             formatted_data['phone'] = place_data['result']['international_phone_number']
             formatted_data['website'] = place_data['result']['website']
             formatted_data['icon'] = place_data['result']['icon']
-            #formatted_data['url'] = place_id['result']['url']
-            formatted_data['url'] = 'https://cdn.imgbin.com/18/16/6/imgbin-pile-of-poo-emoji-sticker-feces-shit-emoji-2EYgjaF87bV7tg8shwJpgDYuR.jpg'
+            formatted_data['url'] = place_id['result']['url']
         except Exception:
             pass
         return formatted_data
