@@ -53,6 +53,7 @@ class PyMapsAPI:
             recommended_places.append(self.get_parsed_places(keyword))
         return recommended_places
 
+
     def format_place(self, place_id, place_description, isRandom):
         formatted_data = {}
         place_data = self.get_place_info_by_id(place_id)
