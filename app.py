@@ -10,6 +10,7 @@ from urllib.parse import urlparse, parse_qsl, urlencode
 from morpho import PyMorpho
 from mapsapi import PyMapsAPI
 
+#TODO save return data to file
 
 client_secret = "krPB9BSIrxRa3qJQwbIQ"
 
@@ -68,6 +69,8 @@ def get_communities(id):
             print("not authorized")
 
     data = request.get_json()
+    print(data)
+
     response = mapsapi.format_recommended_places(
         mapsapi.get_recommended_places(pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
 
