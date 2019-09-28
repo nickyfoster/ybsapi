@@ -70,7 +70,7 @@ def get_communities(id):
     data = request.get_json()
     with open('received.txt', 'a') as f:
         f.write("**********************************************************************\n")
-        f.write(data)
+        f.write(str(data))
         f.write("**********************************************************************\n")
 
     print(data)
