@@ -64,7 +64,7 @@ def get_communities(id):
     if referrer:
         if is_vk_user(referrer):
             print("User authorized")
-            else:
+        else:
             print("not authorized")
 
     data = request.get_json()
