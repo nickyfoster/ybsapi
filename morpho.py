@@ -8,24 +8,28 @@ class PyMorpho:
         self.termex = rutermextract.TermExtractor()
         self.true_keywords = keywords.our_keywords
 
-    def get_keywords_list(self, raw_text_data, limit, frequency):
+    def generate_keywords_list(self, raw_text_data, limit, frequency):
         """ Generate keywords list from string
         term.normalized - keyword in text
         term.count      - quantity of keyword in text
         """
         keyword_count_dict = {}
-        result = []
+        keywords = []
 
         for term in self.termex(raw_text_data, limit=limit):
             keyword_count_dict[term.normalized] = term.count
 
         for keyword, count in keyword_count_dict.items():
             if count > frequency:
-                result.append(keyword)
-        return result
+                keywords.append(keyword)
 
-    def get_user_groups_keywords(self, groups, limit=40, frequency=2):
+        return keywords
 
+    def format_user_keywords(self, user_keywords):
+        result_kw_list = set(user_keywords) & set(self.true_keywords)
+        return result_kw_list
+
+    def get_keywords_from_groups(self, groups, limit=40, frequency=2):
         """ Generate keywords list according to user groups """
         preprocess_text_data = ""
         keyword_count_dict = {}

@@ -2,10 +2,6 @@ import googlemaps
 
 import auth
 
-gmaps = googlemaps.Client(key=auth.google_maps_API)
-
-SPB = (59.935552, 30.321777)
-
 
 class PyMapsAPI:
     """Custom Google Maps API class for searching new place."""
@@ -28,20 +24,42 @@ class PyMapsAPI:
         place_info = self.gmaps.place(place_id=place_id, language='ru')
         return place_info
 
-    def get_formatted_places(self, search_text):
-        formatted_places = []
-        unformatted_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
-                                                                  radius=self.radius, language=self.language)
-        for place in unformatted_places:
+    def get_parsed_places(self, search_text):
+        parsed_places = []
+        unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
+                                                               radius=self.radius, language=self.language)
+        for place in unparsed_places:
             try:
-                formatted_places.append({'place_description': place['description'], 'place_id': place['place_id']})
+                parsed_places.append({'place_description': place['description'], 'place_id': place['place_id']})
             except Exception as e:
                 print(f"Error: {e}")
-        return formatted_places
+        return parsed_places
 
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
         for keyword in true_user_keywords:
-            recommended_places.append(self.get_formatted_places(keyword))
+            recommended_places.append(self.get_parsed_places(keyword))
         return recommended_places
 
+    def format_place(self, place_id, place_description):
+        formatted_data = {}
+        place_data = self.get_place_info_by_id(place_id)
+        try:
+            formatted_data['name'] = place_data['result']['name']
+            formatted_data['description'] = place_description
+            formatted_data['address'] = place_data['result']['formatted_address']
+            formatted_data['phone'] = place_data['result']['international_phone_number']
+            formatted_data['website'] = place_data['result']['website']
+            formatted_data['icon'] = place_data['result']['icon']
+            formatted_data['url'] = place_id['result']['url']
+        except Exception as e:
+            print(f"Error: {e} at {place_id}")
+        return formatted_data
+
+    def format_recommended_places(self, recommended_places):
+        formatted_recommended_places = []
+        for places in recommended_places:
+            for place in places:
+                formatted_recommended_places.append(self.format_place(place['place_id'], place['place_description']))
+
+        return formatted_recommended_places
