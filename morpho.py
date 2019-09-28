@@ -36,7 +36,8 @@ class PyMorpho:
         user_groups_keywords = []
         for group in groups:
             try:
-                preprocess_text_data += group['description'] + group['name']
+                #preprocess_text_data += group['description'] + group['name']
+                preprocess_text_data += group['name']
             except Exception:
                 pass
 

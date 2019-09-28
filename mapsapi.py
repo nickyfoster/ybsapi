@@ -20,6 +20,10 @@ class PyMapsAPI:
         return self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
                                                     radius=self.radius, language=self.language)
 
+    def get_places_test_method(self, search_text):
+        return self.gmaps.places(query=search_text, location=self.coordinates, radius=self.radius,
+                                 language=self.language)
+
     def get_place_info_by_id(self, place_id):
         place_info = self.gmaps.place(place_id=place_id, language='ru')
         return place_info

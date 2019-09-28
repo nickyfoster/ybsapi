@@ -70,7 +70,6 @@ def get_communities(id):
 
     data = request.get_json()
     print(data)
-
     response = mapsapi.format_recommended_places(
         mapsapi.get_recommended_places(pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
 
