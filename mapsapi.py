@@ -26,13 +26,13 @@ class PyMapsAPI:
 
     def get_parsed_places(self, search_text):
         parsed_places = []
-        search_text += ' '
+        #search_text += ' '
         print(f"**** SEARCHING FOR: {search_text}")
-        # unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
-        #                                                      radius=self.radius, language=self.language)
-        unparsed_places = self.gmaps.places_autocomplete(input_text=search_text, location=self.coordinates,
-                                                         radius=self.radius, language=self.language, offset=2,
-                                                         strict_bounds=True)
+        unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
+                                                              radius=self.radius, language=self.language)
+        #unparsed_places = self.gmaps.places_autocomplete(input_text=search_text, location=self.coordinates,
+         #                                                radius=self.radius, language=self.language, offset=2,
+             #                                            strict_bounds=True)
 
         for place in unparsed_places:
             try:
@@ -40,6 +40,9 @@ class PyMapsAPI:
             except Exception:
                 pass
         return parsed_places
+
+    def download_photo(self, photo_reference):
+        return self.gmaps.places_photo(photo_reference=photo_reference, max_width=800, max_height=800)
 
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
@@ -58,6 +61,7 @@ class PyMapsAPI:
             formatted_data['website'] = place_data['result']['website']
             formatted_data['icon'] = place_data['result']['icon']
             formatted_data['url'] = place_id['result']['url']
+            #formatted_data['photo_reference'] = place_id['result']['photos'][0]['photo_reference']
         except Exception:
             pass
         return formatted_data

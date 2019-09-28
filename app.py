@@ -67,8 +67,12 @@ def get_communities(id):
             print("User authorized")
         else:
             print("not authorized")
-
     data = request.get_json()
+    with open('received.txt', 'a') as f:
+        f.write("**********************************************************************\n")
+        f.write(data)
+        f.write("**********************************************************************\n")
+
     print(data)
     response = mapsapi.format_recommended_places(
         mapsapi.get_recommended_places(pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
