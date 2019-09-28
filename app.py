@@ -48,6 +48,7 @@ def parse_friends(json_data):
 
 @app.route('/')
 def hello():
+    app.logger.info('Processing default request')
     return jsonify({'Yasos Biba Studios': True})
 
 @app.route('/user/communities/<id>', methods=['GET', 'POST'])
