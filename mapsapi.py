@@ -37,6 +37,7 @@ class PyMapsAPI:
         for place in unparsed_places:
             try:
                 parsed_places.append({'place_description': place['description'], 'place_id': place['place_id']})
+                break # we are leaving
             except Exception:
                 pass
         return parsed_places
