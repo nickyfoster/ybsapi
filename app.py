@@ -8,8 +8,6 @@ from hashlib import sha256
 from hmac import HMAC
 from urllib.parse import urlparse, parse_qsl, urlencode
 
-#TODO: access database parameters
-#TODO: make decorator for vk id validation or just check in each function
 
 client_secret = "krPB9BSIrxRa3qJQwbIQ"
 
