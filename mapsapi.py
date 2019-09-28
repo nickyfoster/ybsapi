@@ -4,7 +4,11 @@ import googlemaps
 
 import auth
 
-#TODO keywords repeating bug
+
+# TODO keywords repeating bug
+# TODO form pictures
+
+# About 10, 4 random, 4 interest, 4 overall interests
 
 class PyMapsAPI:
     """Custom Google Maps API class for searching new place."""
@@ -42,10 +46,15 @@ class PyMapsAPI:
         return parsed_places
 
     def get_random_place(self):
-        words = ['музыка', 'ресторан', 'кино', 'столовая', 'музей', 'кафе', 'спортзал', 'театр', 'спорт', 'магазин',
-                 'пекарня']
-        random_place = self.format_recommended_places([self.get_parsed_places(random.choice(words))], True)
-        return random_place
+        N_RANDOM_WORDS = 6
+        random_places = []
+        words = set(['музыка', 'ресторан', 'кинотеатр', 'столовая', 'музей', 'кафе', 'спортзал', 'театр', 'продукты',
+                     'пекарня', 'цирк', 'бар', 'живая музыка', 'торговый центр', 'одежда', 'спа'])
+        random_words = random.sample(words, N_RANDOM_WORDS)
+        for random_word in random_words:
+            random_places.extend(self.format_recommended_places([self.get_parsed_places(random_word)], True))
+        return random_places
+
 
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
@@ -74,6 +83,7 @@ class PyMapsAPI:
             formatted_data['isRandom'] = 0
 
         return formatted_data
+
 
     def format_recommended_places(self, recommended_places, isRandom):
         formatted_recommended_places = []

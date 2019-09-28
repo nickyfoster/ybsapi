@@ -75,8 +75,7 @@ def get_communities(id):
         response = mapsapi.format_recommended_places(
             mapsapi.get_recommended_places(
                 pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))), False)
-        for x in range(6):
-            response.extend(mapsapi.get_random_place())
+        response.extend(mapsapi.get_random_place())
     return jsonify({'data': response})
 
 
