@@ -34,7 +34,7 @@ class PyMapsAPI:
     def get_parsed_places(self, search_text):
         parsed_places = []
         # search_text += ' '
-        print(f"**** SEARCHING FOR: {search_text}")
+        print(f"\t**** SEARCHING FOR: {search_text} ****")
         unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
                                                                radius=self.radius, language=self.language)
         for place in unparsed_places:
