@@ -4,6 +4,7 @@ import googlemaps
 
 import auth
 
+#TODO keywords repeating bug
 
 class PyMapsAPI:
     """Custom Google Maps API class for searching new place."""
@@ -66,7 +67,7 @@ class PyMapsAPI:
         except Exception as e:
             pass
 
-        if isRandom == True:
+        if isRandom:
             formatted_data['isRandom'] = 1
         else:
             formatted_data['isRandom'] = 0

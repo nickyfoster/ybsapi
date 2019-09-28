@@ -71,14 +71,13 @@ def get_communities(id):
             print("User authorized")
         else:
             print("not authorized")
-        random_response = []
         data = request.get_json()
         response = mapsapi.format_recommended_places(
             mapsapi.get_recommended_places(
                 pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))), False)
         for x in range(6):
-            random_response.append(mapsapi.get_random_place())
-
+            response.append(mapsapi.get_random_place())
+        print(f"DATA SENT: {response}")
     return jsonify({'data': response})
 
 
