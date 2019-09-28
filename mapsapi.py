@@ -26,18 +26,6 @@ class PyMapsAPI:
 
     def get_parsed_places(self, search_text):
         parsed_places = []
-        unparsed_places = self.gmaps.places_autocomplete(input_text=search_text, location=self.coordinates,
-                                                               radius=self.radius, language=self.language)
-        for place in unparsed_places:
-            try:
-                parsed_places.append({'place_description': place['description'], 'place_id': place['place_id']})
-            except Exception:
-                pass
-        return parsed_places
-
-        '''
-    def get_parsed_places(self, search_text):
-        parsed_places = []
         unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
                                                                radius=self.radius, language=self.language)
         for place in unparsed_places:
@@ -46,7 +34,6 @@ class PyMapsAPI:
             except Exception:
                 pass
         return parsed_places
-        '''
 
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
