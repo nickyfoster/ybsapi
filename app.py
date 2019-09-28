@@ -75,11 +75,11 @@ def get_communities(id):
         data = request.get_json()
         response = mapsapi.format_recommended_places(
             mapsapi.get_recommended_places(
-                pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
+                pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))), False)
         for x in range(6):
             random_response.append(mapsapi.get_random_place())
 
-    return jsonify({'data': {'recommended': response, 'random': random_response}})
+    return jsonify({'data': ['recommended': response, 'random': random_response]})
 
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
@@ -93,7 +93,6 @@ def get_friends(id):
             print("not authorized")
     data = request.get_json()
     result = parse_friends(data)
-    print("Returning: ", result)
     return jsonify({'data': result})
 
 
