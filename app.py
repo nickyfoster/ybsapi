@@ -7,20 +7,23 @@ from collections import OrderedDict
 from hashlib import sha256
 from hmac import HMAC
 from urllib.parse import urlparse, parse_qsl, urlencode
+from morpho import PyMorpho
+from mapsapi import PyMapsAPI
 
 
 client_secret = "krPB9BSIrxRa3qJQwbIQ"
 
 app = Flask(__name__)
 cors = CORS(app)
+pymorpho = PyMorpho()
+mapsapi = PyMapsAPI()
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 from models import User
-
-
 
 
 def parse_friends(json_data):
@@ -61,12 +64,15 @@ def get_communities(id):
     if referrer:
         if is_vk_user(referrer):
             print("User authorized")
-        else:
+            else:
             print("not authorized")
 
     data = request.get_json()
     print("Data: ", data)
-    return jsonify({'data': 'Received'})
+    response = mapsapi.format_recommended_places(
+        mapsapi.get_recommended_places(pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
+
+    return jsonify({'data': response})
 
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])

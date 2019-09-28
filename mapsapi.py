@@ -31,8 +31,8 @@ class PyMapsAPI:
         for place in unparsed_places:
             try:
                 parsed_places.append({'place_description': place['description'], 'place_id': place['place_id']})
-            except Exception as e:
-                print(f"Error: {e}")
+            except Exception:
+                pass
         return parsed_places
 
     def get_recommended_places(self, true_user_keywords):
@@ -52,8 +52,8 @@ class PyMapsAPI:
             formatted_data['website'] = place_data['result']['website']
             formatted_data['icon'] = place_data['result']['icon']
             formatted_data['url'] = place_id['result']['url']
-        except Exception as e:
-            print(f"Error: {e} at {place_id}")
+        except Exception:
+            pass
         return formatted_data
 
     def format_recommended_places(self, recommended_places):

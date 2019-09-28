@@ -37,8 +37,8 @@ class PyMorpho:
         for group in groups:
             try:
                 preprocess_text_data += group['description'] + group['name']
-            except Exception as e:
-                print(f"Error: {e}")
+            except Exception:
+                pass
 
         for term in self.termex(preprocess_text_data, limit=limit):
             keyword_count_dict[term.normalized] = term.count
