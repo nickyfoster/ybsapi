@@ -79,7 +79,7 @@ def get_communities(id):
         for x in range(6):
             random_response.append(mapsapi.get_random_place())
 
-    return jsonify({'data': ['recommended': response, 'random': random_response]})
+    return jsonify({'data': response})
 
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
