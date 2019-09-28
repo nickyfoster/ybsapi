@@ -68,15 +68,14 @@ def get_communities(id):
     referrer = request.headers.get("Referer")
     if referrer:
         if is_vk_user(referrer):
-            print("User authorized")
+            app.logger.info('User Authorized')
         else:
-            print("not authorized")
+            app.logger.warning('User Not Authorized')
         data = request.get_json()
         response = mapsapi.format_recommended_places(
             mapsapi.get_recommended_places(
                 pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))), False)
         response.extend(mapsapi.get_random_place())
-
     return jsonify({'data': response})
 
 
@@ -86,9 +85,9 @@ def get_friends(id):
     referrer = request.headers.get("Referer")
     if referrer:
         if is_vk_user(referrer):
-            print("User authorized")
+            app.logger.info('User Authorized')
         else:
-            print("not authorized")
+            app.logger.warning('User Not Authorized')
     data = request.get_json()
     result = parse_friends(data)
     return jsonify({'data': result})
@@ -98,16 +97,16 @@ def get_friends(id):
 @cross_origin()
 def task_info(id):
     users = User.query.filter_by(user_vk_id=id).first()
-    print("users:", users)
+    app.logger.info(f'User: {users}')
     referrer = request.headers.get("Referer")
-    print("Referrer: ", referrer)
+    app.logger.info(f'Referer: {referrer}')
     if referrer:
         if is_vk_user(referrer):
-            print("User authorized")
+            app.logger.info('User Authorized')
         else:
-            print("not authorized")
+            app.logger.warning('User Not Authorized')
     if users:
-        print("User exists")
+        app.logger.info(f"User {users} exists")
         result = {"data": {"vk_user_id": id, "status": "old"}}
         return jsonify(result)
     else:
@@ -115,7 +114,7 @@ def task_info(id):
             new_user = User(user_vk_id=id)
             db.session.add(new_user)
             db.session.commit()
-            print("New User Created!")
+            app.logger.info(f"User {new_user} created")
             result = {"data": {"vk_user_id": id, "status": "new"}}
             return jsonify(result)
         except Exception as e:

@@ -76,6 +76,7 @@ class PyMapsAPI:
             formatted_data['url'] = place_data['result']['url']
             formatted_data['rating'] = place_data['result']['rating']
             formatted_data['user_ratings_total'] = place_data['result']['user_ratings_total']
+            formatted_data['photo_id'] = place_data['result']['user_ratings_total']
         except Exception as e:
             pass
 
