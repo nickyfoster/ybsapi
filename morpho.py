@@ -6,8 +6,8 @@ import keywords
 class PyMorpho:
     def __init__(self):
         self.termex = rutermextract.TermExtractor()
-        #self.true_keywords = keywords.our_keywords
-        self.true_keywords = keywords.keywords_list2
+        self.true_keywords = keywords.our_keywords
+        #self.true_keywords = keywords.keywords_list2
 
     def generate_keywords_list(self, raw_text_data, limit, frequency):
         """ Generate keywords list from string

@@ -20,18 +20,22 @@ class PyMapsAPI:
         return self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
                                                     radius=self.radius, language=self.language)
 
-    def test_places(self, search_text):
-        return self.gmaps.places(query=search_text, location=self.coordinates, radius=self.radius,
-                                 language=self.language)
-
-    def test_places_nearby(self, search_text):
-        return self.gmaps.places_nearby(location=self.coordinates, radius=self.radius, keyword=search_text,
-                                        language=self.language)
-
     def get_place_info_by_id(self, place_id):
         place_info = self.gmaps.place(place_id=place_id, language='ru')
         return place_info
 
+    def get_parsed_places(self, search_text):
+        parsed_places = []
+        unparsed_places = self.gmaps.places_autocomplete(input_text=search_text, location=self.coordinates,
+                                                               radius=self.radius, language=self.language)
+        for place in unparsed_places:
+            try:
+                parsed_places.append({'place_description': place['description'], 'place_id': place['place_id']})
+            except Exception:
+                pass
+        return parsed_places
+
+        '''
     def get_parsed_places(self, search_text):
         parsed_places = []
         unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
@@ -42,6 +46,7 @@ class PyMapsAPI:
             except Exception:
                 pass
         return parsed_places
+        '''
 
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
