@@ -55,13 +55,11 @@ class PyMapsAPI:
             random_places.extend(self.format_recommended_places([self.get_parsed_places(random_word)], True))
         return random_places
 
-
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
         for keyword in true_user_keywords:
             recommended_places.append(self.get_parsed_places(keyword))
         return recommended_places
-
 
     def format_place(self, place_id, place_description, isRandom):
         formatted_data = {}
@@ -76,7 +74,9 @@ class PyMapsAPI:
             formatted_data['url'] = place_data['result']['url']
             formatted_data['rating'] = place_data['result']['rating']
             formatted_data['user_ratings_total'] = place_data['result']['user_ratings_total']
-            formatted_data['photo_id'] = place_data['result']['user_ratings_total']
+            formatted_data[
+                'photo_url'] = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={place_data['result']['photos'][0]['photo_reference']}&key={auth.google_maps_API}"
+
         except Exception as e:
             pass
 
@@ -86,7 +86,6 @@ class PyMapsAPI:
             formatted_data['isRandom'] = 0
 
         return formatted_data
-
 
     def format_recommended_places(self, recommended_places, isRandom):
         formatted_recommended_places = []
