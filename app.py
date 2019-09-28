@@ -1,16 +1,18 @@
 import os
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
 from base64 import b64encode
 from collections import OrderedDict
 from hashlib import sha256
 from hmac import HMAC
 from urllib.parse import urlparse, parse_qsl, urlencode
-from morpho import PyMorpho
-from mapsapi import PyMapsAPI
 
-#TODO save return data to file
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
+from flask_sqlalchemy import SQLAlchemy
+
+from mapsapi import PyMapsAPI
+from morpho import PyMorpho
+
+# TODO save return data to file
 
 client_secret = "krPB9BSIrxRa3qJQwbIQ"
 
@@ -53,10 +55,12 @@ def parse_friends(json_data):
 
     return friends_in_app
 
+
 @app.route('/')
 def hello():
     app.logger.info('Processing default request')
     return jsonify({'Yasos Biba Studios': True})
+
 
 @app.route('/user/communities/<id>', methods=['GET', 'POST'])
 @cross_origin()
@@ -67,17 +71,14 @@ def get_communities(id):
             print("User authorized")
         else:
             print("not authorized")
-    data = request.get_json()
-    with open('received.txt', 'a') as f:
-        f.write("**********************************************************************\n")
-        f.write(str(data))
-        f.write("**********************************************************************\n")
+        random_response = []
+        response = mapsapi.format_recommended_places(
+            mapsapi.get_recommended_places(
+                pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
+        for x in range(6):
+            random_response.append(mapsapi.get_random_place())
 
-    print(data)
-    response = mapsapi.format_recommended_places(
-        mapsapi.get_recommended_places(pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))))
-
-    return jsonify({'data': response})
+    return jsonify({'data': {'recommended': response, 'random': random_response}})
 
 
 @app.route('/user/friends/<id>', methods=['GET', 'POST'])
@@ -109,18 +110,19 @@ def task_info(id):
             print("not authorized")
     if users:
         print("User exists")
-        result = { "data": {"vk_user_id": id, "status": "old"}}
+        result = {"data": {"vk_user_id": id, "status": "old"}}
         return jsonify(result)
     else:
         try:
-            new_user = User(user_vk_id = id)
+            new_user = User(user_vk_id=id)
             db.session.add(new_user)
             db.session.commit()
             print("New User Created!")
-            result = { "data": {"vk_user_id": id, "status": "new"}}
+            result = {"data": {"vk_user_id": id, "status": "new"}}
             return jsonify(result)
         except Exception as e:
-            return(str(e))
+            return (str(e))
+
 
 def is_vk_user(url) -> bool:
     """Check VK Apps signature"""

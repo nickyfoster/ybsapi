@@ -1,5 +1,5 @@
 import googlemaps
-
+import random
 import auth
 
 
@@ -26,29 +26,31 @@ class PyMapsAPI:
 
     def get_parsed_places(self, search_text):
         parsed_places = []
-        #search_text += ' '
+        # search_text += ' '
         print(f"**** SEARCHING FOR: {search_text}")
         unparsed_places = self.gmaps.places_autocomplete_query(input_text=search_text, location=self.coordinates,
-                                                              radius=self.radius, language=self.language)
-        #unparsed_places = self.gmaps.places_autocomplete(input_text=search_text, location=self.coordinates,
-         #                                                radius=self.radius, language=self.language, offset=2,
-             #                                            strict_bounds=True)
+                                                               radius=self.radius, language=self.language)
 
         for place in unparsed_places:
             try:
                 parsed_places.append({'place_description': place['description'], 'place_id': place['place_id']})
-                break # we are leaving
+                break  # ust one place for one keyword
             except Exception:
                 pass
         return parsed_places
 
-    def download_photo(self, photo_reference):
-        return self.gmaps.places_photo(photo_reference=photo_reference, max_width=800, max_height=800)
+    def get_random_place(self):
+        words = ['музыка', 'ресторан', 'кино', 'столовая', 'музей', 'кафе', 'спортзал', 'театр', 'спорт', 'магазин',
+                 'пекарня']
+        random_place = self.format_recommended_places([self.get_parsed_places(random.choice(words))])
+        return random_place
+
 
     def get_recommended_places(self, true_user_keywords):
         recommended_places = []
         for keyword in true_user_keywords:
             recommended_places.append(self.get_parsed_places(keyword))
+
         return recommended_places
 
     def format_place(self, place_id, place_description):
@@ -62,7 +64,7 @@ class PyMapsAPI:
             formatted_data['website'] = place_data['result']['website']
             formatted_data['icon'] = place_data['result']['icon']
             formatted_data['url'] = place_id['result']['url']
-            #formatted_data['photo_reference'] = place_id['result']['photos'][0]['photo_reference']
+            # formatted_data['photo_reference'] = place_id['result']['photos'][0]['photo_reference']
         except Exception:
             pass
         return formatted_data
