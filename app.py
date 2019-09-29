@@ -88,8 +88,7 @@ def get_communities(id):
             if place is not None:
                 response.append(place)
 
-    print(f"Response:{response}")
-
+        print(f"Response:{response}")
     return jsonify({'data': response})
 
 
