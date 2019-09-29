@@ -111,9 +111,11 @@ class PyMapsAPI:
         unparsed_places = self.gmaps.places_nearby(keyword=search_text, location=self.coordinates,
                                                    radius=self.radius, language=self.language, rank_by='prominence')
         data = []
+        count = 0
         for place in unparsed_places['results']:
+            if count == 3:
+                break
             temp = {}
-
             try:
                 temp['name'] = place['name']
                 temp['types'] = place['types']
@@ -122,8 +124,9 @@ class PyMapsAPI:
                 temp['user_ratings_total'] = place['user_ratings_total']
                 temp[
                     'photo_url'] = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={place['photos'][0]['photo_reference']}&key={auth.google_maps_API}"
-
+                temp['key_word'] = search_text
                 data.append(temp)
+                count += 1
             except Exception as e:
                 pass
 
