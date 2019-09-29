@@ -77,7 +77,7 @@ def get_communities(id):
           #  mapsapi.get_recommended_places(
               #  pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))), False)
        # response.extend(mapsapi.get_random_place())
-
+        response = []
         for word in pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data)):
             place = mapsapi.find_one_place(word)
             if place is not None:
