@@ -36,9 +36,7 @@ heroku run python manage.py db upgrade --app name_of_your_application # migratio
 ```
 heroku logs --tail --app ybsapi
 ```
-###Flask and Heroku tutorial
 
-https://medium.com/@dushan14/create-a-web-application-with-python-flask-postgresql-and-deploy-on-heroku-243d548335cc
 ###VK verify user ID
 https://vk.com/dev/vk_apps_launch_params
 
