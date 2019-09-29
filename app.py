@@ -73,20 +73,17 @@ def get_communities(id):
         else:
             app.logger.warning('User Not Authorized')
         data = request.get_json()
-        #response = mapsapi.format_recommended_places(
-          #  mapsapi.get_recommended_places(
-              #  pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data))), False)
-       # response.extend(mapsapi.get_random_place())
+
         response = []
         for word in pymorpho.format_user_keywords(pymorpho.get_keywords_from_groups(groups=data)):
             place = mapsapi.find_one_place(word)
             if place is not None:
-                response.append(place)
+                response.extend(place)
 
         for word in random.sample(set(keywords.words), N_RANDOM_WORDS):
             place = mapsapi.find_one_place(word)
             if place is not None:
-                response.append(place)
+                response.extend(place)
 
         print(f"Response:{response}")
     return jsonify({'data': response})

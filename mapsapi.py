@@ -110,8 +110,10 @@ class PyMapsAPI:
     def find_one_place(self, search_text):
         unparsed_places = self.gmaps.places_nearby(keyword=search_text, location=self.coordinates,
                                                    radius=self.radius, language=self.language, rank_by='prominence')
+        data = []
         for place in unparsed_places['results']:
             temp = {}
+
             try:
                 temp['name'] = place['name']
                 temp['types'] = place['types']
@@ -121,7 +123,8 @@ class PyMapsAPI:
                 temp[
                     'photo_url'] = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={place['photos'][0]['photo_reference']}&key={auth.google_maps_API}"
 
-                data = temp
-                return data
+                data.append(temp)
             except Exception as e:
                 pass
+
+        return data
