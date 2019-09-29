@@ -1,7 +1,7 @@
 import random
 
 import googlemaps
-
+import keywords
 import auth
 
 
@@ -16,7 +16,7 @@ class PyMapsAPI:
 
     def __init__(self, language='ru', radius=5000):
         self.gmaps = googlemaps.Client(key=auth.google_maps_API)  # Google Maps API initialization
-        self.coordinates = (59.935552, 30.321777)  # The lat/lon center point values. Default: Saint-Petersburg center
+        self.coordinates = (59.93555, 30.321777)  # The lat/lon center point values. Default: Saint-Petersburg center
         self.language = language  # The language in which to return results.
         self.radius = radius  # Distance in meters within which to bias results.
 
@@ -95,3 +95,33 @@ class PyMapsAPI:
                     self.format_place(place['place_id'], place['place_description'], isRandom))
 
         return formatted_recommended_places
+
+    # Magic begins here
+
+    def get_random_place(self):
+        N_RANDOM_WORDS = 5
+        random_places = []
+        random_words = random.sample(set(keywords.words), N_RANDOM_WORDS)
+        for random_word in random_words:
+            random_places.extend(self.find_one_place(random_word))
+        return random_places
+
+
+    def find_one_place(self, search_text):
+        unparsed_places = self.gmaps.places_nearby(keyword=search_text, location=self.coordinates,
+                                                   radius=self.radius, language=self.language, rank_by='prominence')
+        for place in unparsed_places['results']:
+            temp = {}
+            try:
+                temp['name'] = place['name']
+                temp['types'] = place['types']
+                temp['address'] = place['vicinity']
+                temp['rating'] = place['rating']
+                temp['user_ratings_total'] = place['user_ratings_total']
+                temp[
+                    'photo_url'] = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={place['photos'][0]['photo_reference']}&key={auth.google_maps_API}"
+
+                data = temp
+                return data
+            except Exception as e:
+                pass
