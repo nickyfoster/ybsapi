@@ -8,7 +8,7 @@ from urllib.parse import urlparse, parse_qsl, urlencode
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
-
+import random
 from mapsapi import PyMapsAPI
 from morpho import PyMorpho
 import keywords
