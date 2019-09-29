@@ -16,7 +16,7 @@ import keywords
 # TODO save return data to file
 
 client_secret = "krPB9BSIrxRa3qJQwbIQ"
-
+N_RANDOM_WORDS = 5
 app = Flask(__name__)
 cors = CORS(app)
 pymorpho = PyMorpho()
