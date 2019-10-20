@@ -8,9 +8,10 @@ from urllib.parse import urlparse, parse_qsl, urlencode
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
+from flask_restplus import Api, Resource, fields
 import random
 from maps_api.mapsapi import PyMapsAPI
-from PyMorpho import PyMorpho
+from keyword_extractor.PyMorpho import PyMorpho
 from resources import keywords
 
 # TODO save return data to file
@@ -18,6 +19,10 @@ from resources import keywords
 client_secret = "krPB9BSIrxRa3qJQwbIQ"
 N_RANDOM_WORDS = 5
 app = Flask(__name__)
+api = Api(app, version='1.0', title='Sample API',
+    description='A sample API',
+)
+
 cors = CORS(app)
 pymorpho = PyMorpho()
 mapsapi = PyMapsAPI()
@@ -57,10 +62,17 @@ def parse_friends(json_data):
     return friends_in_app
 
 
-@app.route('/')
-def hello():
-    app.logger.info('Processing default request')
-    return jsonify({'Yasos Biba Studios': True})
+@api.route('/')
+@api.doc(params={'healthCheck': ''})
+class Hello(Resource):
+    def get(self):
+        return  {'Yasos Biba Studios': True}
+
+    @api.response(403, 'Not Authorized')
+    def post(self, id):
+        api.abort(403)
+
+
 
 
 @app.route('/user/communities/<id>', methods=['GET', 'POST'])
